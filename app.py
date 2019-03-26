@@ -2,11 +2,15 @@ from flask import Flask, render_template, request, jsonify
 import plotly.graph_objs as go
 from plotly.utils import PlotlyJSONEncoder
 import json
+import csv
 import requests
+from flask import Flask, request
+#from cassandra.cluster import Cluster
 from pprint import pprint
 import requests_cache
 
 requests_cache.install_cache('air_api_cache' , backend='sqlite' , expire_after=36000)
+
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
@@ -57,6 +61,17 @@ def local():
     else:
         print(resp.reason)
     return ("Done!")
+
+
+
+#cluster = Cluster(['cassandra'])
+#session = cluster.connect()
+@app.route('/pokemon/<name>' , methods=['GET'])
+def profile(name):
+    rows = session.execute( """Select * From pokemon.stats where name = '{}'""".format(name))
+    for pokemon in rows:
+        return('<h1>{} has {} attack!</h1>'.format(name,pokemon.attack))
+    return('<h1>That Pokemon does not exist!</h1>')
 
 if __name__=="__main__":
     app.run(port=8080, debug=True)
