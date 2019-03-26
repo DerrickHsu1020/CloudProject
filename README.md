@@ -19,3 +19,7 @@ This request returns the hourly historical air quality information at Queen Mary
 local():
 app.route('/localairquality'),
 This request returns the current air quality information for United Kingdom
+
+profile():
+app.route('/pokemon/<name>'),
+This request returns the pokemon's attack stat
