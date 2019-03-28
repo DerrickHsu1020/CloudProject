@@ -10,18 +10,18 @@ The API license will expire at 2nd of April, 2019
 
 Description of API:
 
-airchart():
-app.route('/airqualitychart'),
-This request returns the hourly historical air quality information at Queen Mary, University of London. Starting from March 15, 2019 at 07:00:00 UTC and ending on March 15, 2019 at 10:00:00 UTC.
-
 past3hours():
-app.route('/airqualityforpasthours'),
-This request returns the hourly historical air quality information at Queen Mary, University of London for past three hours.
+app.route('/airquality/<lat>/<lng>'),
+parameters:<lat>, <lng>
+lat should be between -90~90
+lng should be between -180~180
+This request returns and send the hourly historical air quality information at QueenMary for the past three hours to cassandra database.
 
-local():
-app.route('/localairquality'),
-This request returns the current air quality information for United Kingdom
+airquality()::
+This request returns
 
-profile():
-app.route('/pokemon/<name>'),
-This request returns the pokemon's attack stat
+
+profile(name):
+parameters:name
+
+This request returns the HP for the pokemon(name)
