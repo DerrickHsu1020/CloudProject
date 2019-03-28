@@ -11,17 +11,15 @@ The API license will expire at 2nd of April, 2019
 Description of API:
 
 past3hours():
-app.route('/airquality/<lat>/<lng>'),
-parameters:<lat>, <lng>
-lat should be between -90~90
-lng should be between -180~180
-This request returns and send the hourly historical air quality information at QueenMary for the past three hours to cassandra database.
+app.route('/airquality/')
+This request returns and send the hourly historical air quality information at QueenMary for the past three hours and send the information to the cassandra database.
 
-airquality()::
-This request returns
+airquality():
+app.route('/airquality/data')
+This request returns the information from the cassandra database. Before execute this app, it needs to execute past3hours() first for insert data into the database if there is no data in the database.
 
 
 profile(name):
-parameters:name
+parameters: name
 
 This request returns the HP for the pokemon(name)
