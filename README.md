@@ -1,6 +1,8 @@
+This is the mini project for Cloud Computing:
+
 A Flask app using air quality API that needs authentication!
 
-The app.py includes different requests for airquality via breezometer.com
+The app.py includes a request for airquality in past three hours via breezometer.com
 
 The API license will expire at 2nd of April, 2019
 
