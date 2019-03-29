@@ -27,8 +27,7 @@ def past3hours():
     resp = requests.get(air_hours_url)
     if resp.ok:
         air=resp.json()
-        pprint(air)
-        return('<h1>Data has been upload.</h1>')
+        return('<h1>{}</h1>'.format(air))
     else:
         print(resp.reason)
 
