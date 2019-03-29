@@ -1,22 +1,20 @@
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from cassandra.cluster import Cluster
 import requests
-from pprint import pprint
-
-
 
 cluster = Cluster(['cassandra'])
 session = cluster.connect()
 
 app = Flask(__name__)
 
+#Print Hello World on the main page
 @app.route('/')
 def hello():
     name = request.args.get("name","World")
     return('<h1>Hello, {}!</h1>'.format(name))
 
-#pass the air quality record to the cassandra database
+#Return the air quality in the past three hours in json format
 @app.route('/airquality' , methods=['GET'])
 def past3hours():
     airhours_url_template = 'https://api.breezometer.com/air-quality/v2/historical/hourly?lat={lat}&lon={lng}&key={API_KEY}&hours=3'
@@ -31,18 +29,14 @@ def past3hours():
     else:
         print(resp.reason)
 
-    categories = {categ["datetime"]:categ["indexes"]["baqi"]["aqi"] for categ in air["data"]}
-    for i in categories:
-        rows = session.execute( """INSERT INTO air.stats(datetime,aqi) values('{}',{}))""".format(i,categories[i]))
-
-# output the air quality
+#Connect the cassandra database for returning the hourly air quality stats on 29 of March which aqi is greater than 50
 @app.route('/airquality/data')
 def airquality():
-    row=session.execute("""SELECT * FROM air.stats""")
+    row=session.execute("""SELECT * FROM air.stats WHERE aqi>=50 ALLOW FILTERING""")
     for q in row:
-        return('<h1>The airquality in the past three hours is {}.</h1>'.format(q.aqi))
+        return('<h1>The hourly airquality at Queen Mary on 29 of March which aqi is greater than 50 is {}, {}.</h1>'.format(q.datetime,q.aqi))
 
-# output the pokemon HP
+#Return the pokemon HP according the input name
 @app.route('/pokemon/<name>' , methods=['GET'])
 def profile(name):
     rows = session.execute( """Select * From pokemon.stats where name = '{}'""".format(name))
