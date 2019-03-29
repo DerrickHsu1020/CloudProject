@@ -7,19 +7,20 @@ The app.py includes a request for airquality in past three hours via breezometer
 The API license will expire at 2nd of April, 2019
 
 
-
 Description of API:
 
+hello():
+@app.route('/'),
+Print Hello World on the main page
+
 past3hours():
-app.route('/airquality/')
-This request returns and send the hourly historical air quality information at QueenMary for the past three hours and send the information to the cassandra database.
+@app.route('/airquality')
+This request returns the hourly historical air quality information at Queen Mary in the past three hours in json format 
 
 airquality():
-app.route('/airquality/data')
-This request returns the information from the cassandra database. Before execute this app, it needs to execute past3hours() first for insert data into the database if there is no data in the database.
-
+@app.route('/airquality/data'),
+This request connects the cassandra database for returning the hourly air quality stats on 29 of March which aqi is greater than 50
 
 profile(name):
-parameters: name
-
-This request returns the HP for the pokemon(name)
+@app.route('/pokemon/<name>')
+This request returns the pokemon HP according the input name
